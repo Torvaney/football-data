@@ -119,3 +119,44 @@ get_ratios <- function(fbl_df) {
   
   return(fbl_df)
 }
+
+goals_stats <- function(chosen_league = "Championship", chosen_season = 2016) {
+  
+  # Load requisite files
+  season_data <- paste0("~/Github/football-data/data/", chosen_league, "/", chosen_season, ".csv") %>% 
+    read.csv(stringsAsFactors = FALSE) %>% 
+    filter(HomeTeam != "", 
+           AwayTeam != "") %>% 
+    mutate(home_points = ifelse(FTR == "H", 3,
+                                ifelse(FTR == "D", 1, 0)),
+           away_points = ifelse(FTR == "A", 3,
+                                ifelse(FTR == "D", 1, 0)),
+           freq = 1)
+  
+  team_lookup <- read.csv("~/Github/football-data/lookups/team_lookup.csv", stringsAsFactors=FALSE)
+  
+  #Process data
+  #Get Primary and Secondary statistics
+  season_data %>%
+    group_by(HomeTeam) %>%
+    summarise(goals_for = sum(FTHG, na.rm = TRUE),
+              goals_against = sum(FTAG, na.rm = TRUE),
+              points = sum(home_points, na.rm = TRUE),
+              played = sum(freq, na.rm = TRUE)) %>%
+    rename(team = HomeTeam) %>%
+    rbind(season_data %>%
+            group_by(AwayTeam) %>%
+            summarise(goals_for = sum(FTAG, na.rm = TRUE),
+                      goals_against = sum(FTHG, na.rm = TRUE),
+                      points = sum(away_points, na.rm = TRUE),
+                      played = sum(freq, na.rm = TRUE)) %>%
+            rename(team = AwayTeam)) %>%
+    group_by(team) %>%
+    summarise_each(funs(sum)) %>%
+    mutate(season = chosen_season) %>%
+    merge(select(team_lookup, football_data, short),
+          by.x = "team", by.y = "football_data",
+          all.x = TRUE) %>%
+    mutate(short = ifelse(is.na(short), team, short)) %>%
+    return()
+}
