@@ -31,6 +31,12 @@ save_csv <- function(chosen_league = "Championship", chosen_season = 2016) {
     write.csv(paste0("~/Github/football-data/data/", chosen_league, "/", chosen_season, ".csv"))
 }
 
+load_csv <- function(chosen_league = "Championship", chosen_season = 2016) {
+  paste0("~/Github/football-data/data/", chosen_league, "/", chosen_season, ".csv") %>% 
+    read.csv(stringsAsFactors = FALSE) %>%
+    return()
+}
+
 summary_stats <- function(chosen_league = "Championship", chosen_season = 2016) {
   
   # Load requisite files
