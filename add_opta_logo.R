@@ -6,7 +6,7 @@ add_opta_logo <- function(chosen_plot) {
   require(png)
   require(grid)
   
-  # Adds Analytics FC logo to bottom right hand corner of the image, the Opta logo to the bottom right and prints ggplot object
+  # Adds Opta logo to the bottom left and prints ggplot object
   # 
   # For instance: p <- ggplot(...) + ...
   #               add_opta_logo(p)
@@ -59,7 +59,7 @@ make_footnote <- function(footnoteText = "Data by Opta",
   # Should be called immediately after ggplot object has been printed.
   # For instance: p <- ggplot(...) + ...
   #               addLogoAndPrint(p)
-  #               makeFootnote("@Torvaney\nData by Opta")
+  #               makeFootnote("Data by Opta")
   #
   # Args:
   #   footnoteText: The text to be added.
