@@ -133,3 +133,21 @@ pitch_markings <- function(col_pitch = "green", col_lines = "white",
   
   return(markings)
 }
+
+direction_label <- function(y_label = -3, x_label = 50) {
+  require(ggplot2)
+  require(grid)
+  # Adds 'Direction of play' indicator to pitch plot
+  # Args:
+  #   y_label: Where on the pitch the arrow and label should show. Defaults to -3.
+  #
+  # Returns:
+  #   ggplot layer
+  
+  layer <- list(geom_segment(x = x_label - 10, y = y_label, xend = x_label + 10, yend = y_label,
+                             arrow = arrow(length = unit(0.02, "npc")),
+                             colour = "gray75"),
+                annotate("text", x = x_label, y = y_label - 1, label = c("Direction of play"), 
+                         vjust = 1.5, size = 3, colour = "gray75"))
+  return(layer)
+}
