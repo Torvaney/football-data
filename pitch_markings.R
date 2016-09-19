@@ -151,3 +151,31 @@ direction_label <- function(y_label = -3, x_label = 50) {
                          vjust = 1.5, size = 3, colour = "gray75"))
   return(layer)
 }
+
+theme_pitch <- function(is_landscape = TRUE) {
+  require(ggplot2)
+  require(grid)
+  
+  # Removes gridlines and axis markings from plot
+  # Args:
+  #   NA
+  #
+  # Returns:
+  #   ggplot theme
+  #
+  # Note: You can ensure that the pitch has the correct aspect ratio on 100x100 coordinates
+  #       by adding ... theme(aspect.ratio = 68/105) + ... to your pitch plot.
+  #       105 x 68 is the Premier League's preferred pitch size
+  
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.title = element_blank(),
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(),
+        axis.line = element_blank(),
+        panel.background = element_blank(), 
+        panel.border = element_blank(),
+        aspect.ratio = ifelse(is_landscape, 68/105, 105/68)) %>%
+    list() %>%
+    return()
+}
